@@ -19,9 +19,9 @@ public class REinas {
     
     static boolean rAtaque(int[] tablero){
         int n = tablero.length;
-        boolean res = false;
+
         for(int i = 0; i< n; i++){
-            for(int j = 0; j< n; j++){
+            for(int j = i + 1; j< n; j++){
                 if(tablero[i] == tablero[j]){
                     return true;
                 } 
@@ -30,7 +30,7 @@ public class REinas {
                 }
             }
         }
-        return res; 
+        return false;
     }
     
     static void buscarSolucion(){
@@ -48,6 +48,8 @@ public class REinas {
                                         if(!rAtaque(tablero)){
                                             dibujar(tablero);
                                             contador++;
+                                            System.out.println("Se encontro una solucion: ");
+                                            return;
                                         }
                                     }
         System.out.println("El numero de soluciones es de: " +contador+ " solcuiones");
