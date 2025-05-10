@@ -15,23 +15,31 @@ public class RModel {
             }
         }
         return false;
-    }
-    
-    public int[] buscarSolucion(){
+    }   
+    public int[] buscarSolucion(int filaF, int columnaF){
         int n = 8;
-        for(int a = 0; a < n; a++)
-            for(int b = 0; b < n; b++)
-                for(int c = 0; c < n; c++)
-                    for(int d = 0; d < n; d++)
-                        for(int e = 0; e < n; e++)
-                            for(int f = 0; f < n; f++)
-                                for(int g = 0; g < n; g++)
-                                    for(int h = 0; h < n    ; h++){
-                                        int[] tablero = {a,b,c,d,e,f,g,h};
-                                        if(!rAtaque(tablero)){
-                                            return tablero;
-                                        }
-                                    }
-        return null;
+        int[] tablero = new int[n];
+        for(int i = 0; i < n; i++){
+            tablero[i]= -1;      
+        }
+        tablero[filaF] = columnaF;
+
+        return colocarReina(tablero, 0 , filaF)? tablero :null;
     }
+    private boolean colocarReina(int[] tablero, int fila, int filaF){
+        int n = tablero.length;
+        if(fila == n) return !rAtaque(tablero);
+        
+        if(fila == filaF) return colocarReina(tablero, fila + 1, filaF);
+        
+        for(int col = 0; col < n; col++){
+            tablero[fila] = col;
+            if(!rAtaque(tablero) && colocarReina(tablero, fila + 1, filaF)){
+                return true;
+            }
+            tablero[fila] = -1; 
+        }
+    }
+    return false;
 }
+
