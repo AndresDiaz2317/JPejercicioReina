@@ -1,10 +1,11 @@
-package controller;   
+package controller;
 
-import model.RModel; 
+import model.RModel;
 import view.RView;
 
-public class RControl {
+import java.util.List;
 
+public class RControl {
     private RModel model;
     private RView view;
 
@@ -13,14 +14,19 @@ public class RControl {
         this.view = view;
     }
 
-    public void buscarSolucion(int fila, int columna) {
-        int[] solucion = model.buscarSolucion(fila, columna);
-        if (solucion != null) {
-            view.mostrarSolucion("Se encontro una solucion con la reina en: "+ fila +" , "+columna+" : ");
-            RView.dibujar(solucion);
-        } else {
-            view.mostrarSolucion("No se encontro una solucion con esa posicion inicial: ");
-        }
+    public void buscarSoluciones(int fila, int columna) {
+        List<int[]> soluciones = model.buscarSoluciones(fila, columna);
 
+        if (!soluciones.isEmpty()) {
+            view.mostrarSolucion("Se encontraron " + soluciones.size() +
+                                 " soluciones con la reina en: (" + fila + ", " + columna + ")");
+            int count = 1;
+            for (int[] sol : soluciones) {
+                view.mostrarSolucion("Solución #" + count++);
+                RView.dibujar(sol);
+            }
+        } else {
+            view.mostrarSolucion("No se encontraron soluciones con la reina en: (" + fila + ", " + columna + ")");
+        }
     }
 }
